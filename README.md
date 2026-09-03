@@ -1,2 +1,2 @@
 # Java
-All about Java programming languague
+All about Java programming language
