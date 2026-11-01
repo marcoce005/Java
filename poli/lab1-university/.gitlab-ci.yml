@@ -1,0 +1,27 @@
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $CI_COMMIT_BEFORE_SHA != "0000000000000000000000000000000000000000"'
+    - when: never
+
+variables:
+  MAVEN_OPTS: >-
+    -Dhttps.protocols=TLSv1.2
+    -Dorg.slf4j.simpleLogger.showDateTime=true
+    -Djava.awt.headless=true
+
+  MAVEN_CLI_OPTS: >-
+    --batch-mode
+    --fail-at-end
+    --show-version
+
+verify:
+  stage: test
+  tags:
+    - oop
+  script:
+    - 'mvn $MAVEN_CLI_OPTS test'
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
